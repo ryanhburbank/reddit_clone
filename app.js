@@ -1,36 +1,68 @@
-angular.module('redditClone', []).controller('PostCtrl', [ '$scope', function($scope){
-    $scope.posts = [
-      {title: 'post 1', upvotes: 5},
-      {title: 'post 2', upvotes: 2},
-      {title: 'post 3', upvotes: 15},
-      {title: 'post 4', upvotes: 9},
-      {title: 'post 5', upvotes: 4}
-    ];
+var redditCloneApp = angular.module('redditClone', ['ui.router']);
 
-    var clearForm = function() {
-      $scope.title = '';
-      $scope.link = '';
-    };
+redditCloneApp.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider
+    .state('home', {
+      url: '/home',
+      templateUrl: '/home.html',
+      controller: 'HomeCtrl'
+    })
+    .state('posts', {
+      url: '/posts/{id}',
+      templateUrl: '/post.html',
+      controller: 'PostCtrl'
+    });
 
-    var titleBlank = function() {
-      return ($scope.title === '' || $scope.title === undefined) ? true : false
-    };
+  $urlRouterProvider.otherwise('home');
+});
 
-    $scope.addPost = function() {
-      if (titleBlank()) { return; };
-      $scope.posts.push({
-        title: $scope.title,
-        link: $scope.link,
-        upvotes: 0
-      });
-      clearForm();
-    };
+redditCloneApp.factory('postManager', function(){
+  return { posts: [] };
+});
 
-    $scope.upvote = function(post) {
-      post.upvotes += 1;
-    };
+redditCloneApp.controller('HomeCtrl', function($scope, postManager){
+  $scope.posts = postManager.posts;
 
-    $scope.downvote = function(post) {
-      post.upvotes -= 1;
-    };
-}]);
+  var clearForm = function() {
+    $scope.title = '';
+    $scope.link = '';
+  };
+
+  var titleBlank = function() {
+    return ($scope.title === '' || $scope.title === undefined) ? true : false
+  };
+
+  $scope.addPost = function() {
+    if (titleBlank()) { return; };
+
+    $scope.posts.push({
+      title: $scope.title,
+      link: $scope.link,
+      upvotes: 0,
+      comments: [
+        { author: 'Joe', body: 'Cool post!', upvotes: 0 },
+        { author: 'Bob', body: 'Great idea but everything is wrong!', upvotes: 0 }
+      ]
+    });
+    clearForm();
+  };
+
+  $scope.upvote = function(post) { post.upvotes += 1; };
+  $scope.downvote = function(post) { post.upvotes -= 1; };
+});
+
+redditCloneApp.controller('PostCtrl', function($scope, $stateParams, postManager) {
+  $scope.post = postManager.posts[$stateParams.id];
+
+  $scope.addComment = function() {
+    if ($scope.body === '') { return; }
+
+    $scope.post.comments.push({
+      body: $scope.body,
+      author: 'user',
+      upvotes: 0
+    });
+
+    $scope.body = '';
+  };
+});
