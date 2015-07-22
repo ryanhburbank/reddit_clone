@@ -65,4 +65,7 @@ redditCloneApp.controller('PostCtrl', function($scope, $stateParams, postManager
 
     $scope.body = '';
   };
+
+  $scope.upvote = function(post) { post.upvotes += 1; };
+  $scope.downvote = function(post) { post.upvotes -= 1; };
 });
