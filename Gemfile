@@ -17,6 +17,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # for managing AngularJs minification in asset pipeline
 gem 'ngannotate-rails', '1.0.2'
 
+# compiles html templates into javascript files that that are inserted in $templateCache
+gem 'angular-rails-templates'
+
+# due to sprockets version 3.2 incompatibility with angular-rails-templates
+gem 'sprockets', '2.12.3'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
