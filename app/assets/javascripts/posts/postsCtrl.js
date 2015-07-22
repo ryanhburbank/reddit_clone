@@ -1,18 +1,20 @@
-redditCloneApp.controller('PostsCtrl', function($scope, $stateParams, postManager) {
-  $scope.post = postManager.posts[$stateParams.id];
+redditCloneApp.controller('PostsCtrl', function($scope, postService, post) {
+  $scope.post = post;
 
   $scope.addComment = function() {
     if ($scope.body === '') { return; }
 
-    $scope.post.comments.push({
+    postService.addComment(post.id, {
       body: $scope.body,
       author: 'user',
-      upvotes: 0
+    }).success(function(comment) {
+      $scope.post.comments = $scope.post.comments || [];
+      $scope.post.comments.push(comment);
     });
 
     $scope.body = '';
   };
 
-  $scope.upvote = function(post) { post.upvotes += 1; };
-  $scope.downvote = function(post) { post.upvotes -= 1; };
+  $scope.upvote = function(comment) { postService.upvoteComment(post, comment); };
+  $scope.downvote = function(comment) { postService.downvoteComment(post, comment); };
 });

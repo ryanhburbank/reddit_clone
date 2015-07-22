@@ -1,5 +1,5 @@
-redditCloneApp.controller('HomeCtrl', function($scope, postManager){
-  $scope.posts = postManager.posts;
+redditCloneApp.controller('HomeCtrl', function($scope, postService){
+  $scope.posts = postService.posts;
 
   var clearForm = function() {
     $scope.title = '';
@@ -13,19 +13,15 @@ redditCloneApp.controller('HomeCtrl', function($scope, postManager){
   $scope.addPost = function() {
     if (titleBlank()) { return; };
 
-    $scope.posts.push({
+    postService.create({
       title: $scope.title,
       link: $scope.link,
-      upvotes: 0,
-      comments: [
-        { author: 'Joe', body: 'Cool post!', upvotes: 0 },
-        { author: 'Bob', body: 'Great idea but everything is wrong!', upvotes: 0 }
-      ]
     });
+
     clearForm();
   };
 
-  $scope.upvote = function(post) { post.upvotes += 1; };
-  $scope.downvote = function(post) { post.upvotes -= 1; };
+  $scope.upvote = function(post) { postService.upvote(post); };
+  $scope.downvote = function(post) { postService.downvote(post); };
 });
 

@@ -6,6 +6,20 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   root to: 'application#angular'
 
+  resources :posts, only: [:create, :index, :show] do
+    resources :comments, only: [:show, :create] do
+      member do
+        put '/upvote' => 'comments#upvote'
+        put '/downvote' => 'comments#downvote'
+      end
+    end
+
+    member do
+      put '/upvote' => 'posts#upvote'
+      put '/downvote' => 'posts#downvote'
+    end
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
