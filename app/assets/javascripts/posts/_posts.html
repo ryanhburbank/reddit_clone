@@ -5,13 +5,6 @@
     </h3>
   </div>
 
-  <div ng-repeat="comment in post.comments | orderBy: '-upvotes'">
-    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(comment)"></span>
-    <span class="glyphicon glyphicon-thumbs-down" ng-click="downvote(comment)"></span>
-    {{ comment.upvotes }} - by {{ comment.author }}
-    <span style="font-sie:20px; margin-left: 10px;"> {{ comment.body }} </span>
-  </div>
-
   <form ng-submit="addComment()" style="margin-top:30px;">
     <h3>Add a new comment</h3>
 
@@ -20,3 +13,11 @@
     </div>
     <button type="submit" class="btn btn-primary">Comment</button>
   </form>
+
+  <div ng-repeat="comment in post.comments | orderBy: '-upvotes'">
+    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(comment)"></span>
+    <span class="glyphicon glyphicon-thumbs-down" ng-click="downvote(comment)"></span>
+    {{ comment.upvotes }} - by {{ comment.user.username }}
+    <span style="font-sie:20px; margin-left: 10px;"> {{ comment.body }} </span>
+  </div>
+

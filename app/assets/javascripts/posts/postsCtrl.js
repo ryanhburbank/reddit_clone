@@ -5,8 +5,7 @@ redditCloneApp.controller('PostsCtrl', function($scope, postService, post) {
     if ($scope.body === '') { return; }
 
     postService.addComment(post.id, {
-      body: $scope.body,
-      author: 'user',
+      body: $scope.body
     }).success(function(comment) {
       $scope.post.comments = $scope.post.comments || [];
       $scope.post.comments.push(comment);
