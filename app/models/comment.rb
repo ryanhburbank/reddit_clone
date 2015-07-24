@@ -1,10 +1,10 @@
 class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :post
-  has_many :votes, as: :voteable
+  has_many :votes, as: :voteable, dependent: :destroy
 
   def upvotes
-    5
+    votes.sum(:value)
   end
 
   def as_json(options= {})

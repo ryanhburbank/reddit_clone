@@ -21,13 +21,13 @@ redditCloneApp.factory('postService', function($http){
 
   service.upvote = function(post) {
     return $http.put('/posts/' + post.id + '/upvote.json').success(function(data) {
-      console.log(data, 'testing upvote');
+      post.upvotes = data.upvotes;
     });
   };
 
   service.downvote = function(post) {
     return $http.put('/posts/' + post.id + '/downvote.json').success(function(data) {
-      console.log(data, 'testing downvote');
+      post.upvotes = data.upvotes;
     });
   }
 
@@ -37,14 +37,13 @@ redditCloneApp.factory('postService', function($http){
 
   service.upvoteComment = function(post, comment) {
     return $http.put('/posts/' + post.id + '/comments/' + comment.id + '/upvote.json').success(function(data){
-      console.log(data, 'testing upvote');
+      comment.upvotes = data.upvotes;
     });
   };
 
   service.downvoteComment = function(post, comment) {
     return $http.put('/posts/' + post.id + '/comments/' + comment.id + '/downvote.json').success(function(data){
-      console.log(data, 'testing downvote');
-      // comment.upvotes -= 1;
+      comment.upvotes = data.upvotes;
     });
   };
 

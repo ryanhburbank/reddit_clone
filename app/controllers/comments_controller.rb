@@ -8,29 +8,32 @@ class CommentsController < ApplicationController
   end
 
   def upvote
-    post = Post.find(params[:post_id])
-    comment = post.comments.find(params[:id])
+    comment = Comment.find(params[:id])
+    vote = comment.find_or_initialize_by(:user_id: current_user.id)
+    vote.value = 1
+
     respond_to do |format|
       format.json {
-        if comment.vote.create(:user_id: current_user.id, value: 1)
-          render json: { success: "Vote created!" }
+        if vote.save
+          render json: { upvotes: comment.upvotes }
         else
-          render json: { error: "You have already voted!" }
+          render json: { message: vote.errors.full_messages }
         end
       }
     end
   end
 
   def downvote
-    post = Post.find(params[:post_id])
-    comment = post.comments.find(params[:id])
+    comment = Comment.find(params[:id])
+    vote = comment.find_or_initialize_by(:user_id: current_user.id)
+    vote.value = -1
 
     respond_to do |format|
       format.json {
-        if comment.vote.create(:user_id: current_user.id, value: -1)
-          render json: { success: "Vote created!" }
+        if vote.save
+          render json: { upvotes: comment.upvotes }
         else
-          render json: { error: "You have already voted!" }
+          render json: { message: vote.errors.full_messages }
         end
       }
     end
