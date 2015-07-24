@@ -15,16 +15,32 @@ class PostsController < ApplicationController
 
   def upvote
     post = Post.find(params[:id])
-    post.increment!(:upvotes)
 
-    respond_with post
+    respond_to do |format|
+      format.json {
+        vote = post.votes.build(user_id: current_user.id, value: 1)
+        if vote.save
+          render json: { message: vote.errors.full_messages }
+        else
+          render json: { message: vote.errors.full_messages }
+        end
+      }
+    end
   end
 
   def downvote
     post = Post.find(params[:id])
-    post.decrement!(:upvotes)
 
-    respond_with post
+    respond_to do |format|
+      format.json {
+        vote = post.votes.build(user_id: current_user.id, value: -1)
+        if vote.save
+          render json: { message: vote.errors.full_messages }
+        else
+          render json: { message: vote.errors.full_messages }
+        end
+      }
+    end
   end
 
   private

@@ -7,7 +7,6 @@ redditCloneApp.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'auth/_login.html',
       controller: 'AuthCtrl',
       onEnter: function($state, Auth) {
-        console.log(Auth, 'foo');
         Auth.currentUser().then(function() {
           $state.go('home');
         })

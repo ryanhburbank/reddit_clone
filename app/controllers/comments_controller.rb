@@ -10,17 +10,30 @@ class CommentsController < ApplicationController
   def upvote
     post = Post.find(params[:post_id])
     comment = post.comments.find(params[:id])
-    comment.increment!(:upvotes)
-
-    respond_with post, comment
+    respond_to do |format|
+      format.json {
+        if comment.vote.create(:user_id: current_user.id, value: 1)
+          render json: { success: "Vote created!" }
+        else
+          render json: { error: "You have already voted!" }
+        end
+      }
+    end
   end
 
   def downvote
     post = Post.find(params[:post_id])
     comment = post.comments.find(params[:id])
-    comment.decrement!(:upvotes)
 
-    respond_with post, comment
+    respond_to do |format|
+      format.json {
+        if comment.vote.create(:user_id: current_user.id, value: -1)
+          render json: { success: "Vote created!" }
+        else
+          render json: { error: "You have already voted!" }
+        end
+      }
+    end
   end
 
   private

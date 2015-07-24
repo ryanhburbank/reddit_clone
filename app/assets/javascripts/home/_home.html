@@ -18,7 +18,7 @@
     <span ng-click="downvote(post)" class="glyphicon glyphicon-thumbs-down"></span>
     <span style="margin-left: 5px; width: 20px; display: inline-block">{{ post.upvotes }}</span>
     <span style="font-size:20px; margin-left:10px;">
-      <a ng-show="post.link" href="http://{{post.link}}">{{post.title}}</a>
+      <a ng-show="post.link" ng-href="http://{{post.link}}">{{post.title}}</a>
       <span ng-hide="post.link">{{post.title}}</span>
       posted by <a ng-href="#/users/{{post.user.username}}">{{post.user.username}}</a>
     </span>
