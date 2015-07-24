@@ -7,10 +7,14 @@ class Post < ActiveRecord::Base
     votes.sum(:value)
   end
 
+  def comment_count
+    comments.count
+  end
+
   def as_json(options= {})
     super(options.merge(
       :only => [:id, :title, :link],
-      :methods => [:upvotes],
+      :methods => [:upvotes, :comment_count],
       :include => {
         :comments => {
           :methods => [:upvotes],

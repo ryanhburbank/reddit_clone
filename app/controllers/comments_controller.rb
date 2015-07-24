@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
 
   def upvote
     comment = Comment.find(params[:id])
-    vote = comment.find_or_initialize_by(:user_id: current_user.id)
+    vote = comment.find_or_initialize_by(user_id: current_user.id)
     vote.value = 1
 
     respond_to do |format|
@@ -25,7 +25,7 @@ class CommentsController < ApplicationController
 
   def downvote
     comment = Comment.find(params[:id])
-    vote = comment.find_or_initialize_by(:user_id: current_user.id)
+    vote = comment.find_or_initialize_by(user_id: current_user.id)
     vote.value = -1
 
     respond_to do |format|
