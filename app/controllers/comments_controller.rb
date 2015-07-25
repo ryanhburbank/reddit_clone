@@ -2,9 +2,12 @@ class CommentsController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :upvote, :downvote]
 
   def create
-    post = Post.find(params[:post_id])
-    comment = post.comments.create(comment_params.merge(user_id: current_user.id))
-    respond_with post, comment
+    comment = (params[:post_id] ? create_post_comment : create_comment_comment)
+    respond_with comment
+  end
+
+  def show
+    respond_with Comment.find(params[:id])
   end
 
   def upvote
@@ -40,6 +43,16 @@ class CommentsController < ApplicationController
   end
 
   private
+
+  def create_post_comment
+    post = Post.find(params[:post_id])
+    post.comments.create(comment_params.merge(user_id: current_user.id))
+  end
+
+  def create_comment_comment
+    comment = Comment.find(params[:comment_id])
+    comment.comments.create(comment_params.merge(user_id: current_user.id))
+  end
 
   def comment_params
     params.require(:comment).permit(:body)

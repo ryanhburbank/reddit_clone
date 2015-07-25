@@ -1,4 +1,4 @@
-redditCloneApp.controller('PostsCtrl', function($scope, postService, post) {
+redditCloneApp.controller('PostsCtrl', function($scope, postService, commentService, post) {
   $scope.post = post;
 
   $scope.addComment = function() {
@@ -14,6 +14,6 @@ redditCloneApp.controller('PostsCtrl', function($scope, postService, post) {
     $scope.body = '';
   };
 
-  $scope.upvote = function(comment) { postService.upvoteComment(post, comment); };
-  $scope.downvote = function(comment) { postService.downvoteComment(post, comment); };
+  $scope.upvote = function(comment) { commentService.upvote(comment); };
+  $scope.downvote = function(comment) { commentService.downvote(comment); };
 });

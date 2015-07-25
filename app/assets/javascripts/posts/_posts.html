@@ -17,7 +17,11 @@
   <div ng-repeat="comment in post.comments | orderBy: '-upvotes'">
     <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(comment)"></span>
     <span class="glyphicon glyphicon-thumbs-down" ng-click="downvote(comment)"></span>
-    {{ comment.upvotes }} - by {{ comment.user.username }}
-    <span style="font-sie:20px; margin-left: 10px;"> {{ comment.body }} </span>
+    {{ comment.upvotes }} - by
+    <a ng-href="#/users/{{comment.user.username}}"> {{ comment.user.username }}</a>
+    <span style="font-size:20px; margin-left: 10px;"> {{ comment.body }} </span>
+    <span>
+      <a href="#/comments/{{comment.id}}">Comments ({{comment.comment_count}})</a>
+    </span>
   </div>
 

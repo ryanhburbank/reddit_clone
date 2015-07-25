@@ -1,6 +1,6 @@
 class Post < ActiveRecord::Base
   belongs_to :user
-  has_many :comments, dependent: :destroy
+  has_many :comments, :as => :commentable, dependent: :destroy
   has_many :votes, as: :voteable, dependent: :destroy
 
   def upvotes
@@ -17,7 +17,7 @@ class Post < ActiveRecord::Base
       :methods => [:upvotes, :comment_count],
       :include => {
         :comments => {
-          :methods => [:upvotes],
+          :methods => [:upvotes, :comment_count],
           :include => {
             :user => {
               :only => [:id, :username, :email]

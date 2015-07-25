@@ -41,6 +41,16 @@ redditCloneApp.config(function($stateProvider, $urlRouterProvider) {
           return postService.get($stateParams.id);
         }
       }
+    })
+    .state('comments', {
+      url: '/comments/{id}',
+      templateUrl: 'comments/_comments.html',
+      controller:  'CommentsCtrl',
+      resolve: {
+        comment: function($stateParams, commentService) {
+          return commentService.get($stateParams.id);
+        }
+      }
     });
 
   $urlRouterProvider.otherwise('home');

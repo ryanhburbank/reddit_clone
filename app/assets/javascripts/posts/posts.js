@@ -35,18 +35,6 @@ redditCloneApp.factory('postService', function($http){
     return $http.post('/posts/' + id + '/comments.json', comment);
   };
 
-  service.upvoteComment = function(post, comment) {
-    return $http.put('/posts/' + post.id + '/comments/' + comment.id + '/upvote.json').success(function(data){
-      comment.upvotes = data.upvotes;
-    });
-  };
-
-  service.downvoteComment = function(post, comment) {
-    return $http.put('/posts/' + post.id + '/comments/' + comment.id + '/downvote.json').success(function(data){
-      comment.upvotes = data.upvotes;
-    });
-  };
-
   return service;
 });
 
