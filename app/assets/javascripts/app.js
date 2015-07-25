@@ -23,7 +23,7 @@ redditCloneApp.config(function($stateProvider, $urlRouterProvider) {
       }
     })
     .state('home', {
-      url: '/home',
+      url: '/',
       templateUrl: 'home/_home.html',
       controller: 'HomeCtrl',
       resolve: {
@@ -53,5 +53,6 @@ redditCloneApp.config(function($stateProvider, $urlRouterProvider) {
       }
     });
 
-  $urlRouterProvider.otherwise('home');
+  $urlRouterProvider.when('', '/');
+  $urlRouterProvider.otherwise('/');
 });
